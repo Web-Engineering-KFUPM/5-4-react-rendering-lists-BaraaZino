@@ -6,40 +6,53 @@ export default function CourseCard({ course, index, onMutateCourse }) {
   const [date, setDate] = useState("");
 
   function toggleTask(id) {
-   
+    onMutateCourse(index, tasks =>
+      tasks.map(t => t.id === id ? { ...t, isDone: !t.isDone } : t)
+    );
   }
 
   function deleteTask(id) {
-    
+      onMutateCourse(index, tasks => tasks.filter(task => task.id !== id));
   }
 
   function addTask(e) {
     e.preventDefault();
-   
+    if (!title.trim() || !date) return;
+    
+    const newTask = {
+      id: Date.now(),
+      title: title.trim(),
+      dueDate: date,
+      isDone: false,
+    };
+
+    onMutateCourse(index, tasks => [...tasks, newTask]);
+    setTitle("")
+     setDate("")
   }
 
   return (
     <article className="course card">
       <header className="cardHeader">
         <h2>{course.title}</h2>
-
+        {course.tasks.length > 0 && course.tasks.every(task => task.isDone) && <span>All caught up</span>}
       </header>
-       <ul className="tasks">
-        (course.tasks ?
-        {course.tasks.map(task => (
-          <TaskItem
-            key={task.id}
-            task={task}
-            onToggle={toggleTask}
-            onDelete={deleteTask}/>
-        ))}
-        :
-        <TaskItem
-            key={task.id}
-            task={"No tasks yet. Add your first one below."}
-            onToggle={toggleTask}
-            onDelete={deleteTask}/>)
-      </ul>
+      
+            {course.tasks.length === 0 ? (
+        <p>No tasks yet. Add your first one below.</p>
+      ) : (
+        <ul>
+          {course.tasks.map(task => (
+            <TaskItem
+              key={task.id}
+              task={task}
+              onToggle={toggleTask}
+              onDelete={deleteTask}
+            />
+          ))}
+        </ul>
+      )}
+
     
       <form onSubmit={addTask} className="newTask">
         <input
