@@ -21,12 +21,13 @@ export default function CourseCard({ course, index, onMutateCourse }) {
     e.preventDefault();
     if (!title.trim() || !date) return;
     
+    const id = Date.now();
     const newTask = {
-      id: Date.now(),
-      title: title.trim(),
+      id,
+      title,
       dueDate: date,
-      isDone: false,
-    };
+      isDone: false
+    }
 
     onMutateCourse(index, tasks => [...tasks, newTask]);
     setTitle("")
