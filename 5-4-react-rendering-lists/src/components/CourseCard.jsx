@@ -22,9 +22,24 @@ export default function CourseCard({ course, index, onMutateCourse }) {
     <article className="course card">
       <header className="cardHeader">
         <h2>{course.title}</h2>
- 
-      </header>
 
+      </header>
+       <ul className="tasks">
+        (course.tasks ?
+        {course.tasks.map(task => (
+          <TaskItem
+            key={task.id}
+            task={task}
+            onToggle={toggleTask}
+            onDelete={deleteTask}/>
+        ))}
+        :
+        <TaskItem
+            key={task.id}
+            task={"No tasks yet. Add your first one below."}
+            onToggle={toggleTask}
+            onDelete={deleteTask}/>)
+      </ul>
     
       <form onSubmit={addTask} className="newTask">
         <input
