@@ -12,7 +12,9 @@ export default function CourseCard({ course, index, onMutateCourse }) {
   }
 
   function deleteTask(id) {
-      onMutateCourse(index, tasks => tasks.filter(task => task.id !== id));
+    onMutateCourse(index, tasks =>
+      tasks.filter(t => t.id !== id)
+    );
   }
 
   function addTask(e) {
@@ -35,7 +37,7 @@ export default function CourseCard({ course, index, onMutateCourse }) {
     <article className="course card">
       <header className="cardHeader">
         <h2>{course.title}</h2>
-        {course.tasks.length > 0 && course.tasks.every(task => task.isDone) && <span>All caught up</span>}
+        {course.tasks.length > 0 && course.tasks.every(t => t.isDone) && "All caught up!"}
       </header>
       
             {course.tasks.length === 0 ? (
